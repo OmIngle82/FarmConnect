@@ -10,22 +10,37 @@ const SignInForm = ({ toggleAuthMode }) => {
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
   
-  const { login, currentUser, userRole } = useAuth();
+  const { login, currentUser, userRole, setUserRole } = useAuth();
   const navigate = useNavigate();
   
   useEffect(() => {
-    if (currentUser && userRole) {
-      const timer = setTimeout(() => {
+    // Get temporary role from localStorage
+    const tempRole = localStorage.getItem('tempUserRole');
+    if (tempRole && !userRole) {
+      setUserRole(tempRole);
+    }
+  }, [userRole, setUserRole]);
+  
+  useEffect(() => {
+    if (currentUser && userRole && !redirecting) {
+      setRedirecting(true);
+      // Save role with user ID
+      localStorage.setItem(`userRole_${currentUser.uid}`, userRole);
+      // Remove temporary role
+      localStorage.removeItem('tempUserRole');
+      
+      // Navigate to appropriate dashboard
+      setTimeout(() => {
         if (userRole === 'farmer') {
           navigate('/farmer-dashboard');
         } else {
           navigate('/buyer-dashboard');
         }
       }, 300);
-      return () => clearTimeout(timer);
     }
-  }, [currentUser, userRole, navigate]);
+  }, [currentUser, userRole, navigate, redirecting]);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +49,7 @@ const SignInForm = ({ toggleAuthMode }) => {
     
     try {
       await login(email, password);
-      // The effect will handle the redirect
+      // The useEffect will handle the redirect
     } catch (err) {
       handleAuthError(err);
       setLoading(false);
@@ -124,9 +139,9 @@ const SignInForm = ({ toggleAuthMode }) => {
         variant="primary"
         size="lg"
         className="w-full mb-4"
-        disabled={loading}
+        disabled={loading || redirecting}
       >
-        {loading ? <LoadingSpinner size="sm" /> : 'Sign In'}
+        {loading || redirecting ? <LoadingSpinner size="sm" /> : 'Sign In'}
       </Button>
       
       <div className="text-center mt-4">

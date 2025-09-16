@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react'; // Removed useState
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import RoleSelection from '../components/layout/RoleSelection'; // Removed AuthCard
+import RoleSelection from '../components/layout/RoleSelection';
+import AuthCard from '../components/auth/AuthCard';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 
 const HomePage = () => {
-  const { currentUser, userRole, loading } = useAuth();
+  const { currentUser, userRole, loading, authInitialized } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!authInitialized) return;
+
     // If user is logged in and has a role, redirect to appropriate dashboard
     if (currentUser && userRole) {
       if (userRole === 'farmer') {
@@ -17,9 +20,9 @@ const HomePage = () => {
         navigate('/buyer-dashboard');
       }
     }
-  }, [currentUser, userRole, navigate]);
+  }, [currentUser, userRole, authInitialized, navigate]);
 
-  if (loading) {
+  if (loading || !authInitialized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <LoadingSpinner size="lg" />

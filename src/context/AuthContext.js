@@ -17,6 +17,7 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userRole, setUserRole] = useState(null);
+  const [authInitialized, setAuthInitialized] = useState(false);
 
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -28,6 +29,13 @@ export function AuthProvider({ children }) {
 
   function logout() {
     return signOut(auth);
+  }
+
+  function setUserRoleWithStorage(role) {
+    setUserRole(role);
+    if (currentUser) {
+      localStorage.setItem(`userRole_${currentUser.uid}`, role);
+    }
   }
 
   useEffect(() => {
@@ -42,24 +50,26 @@ export function AuthProvider({ children }) {
         setUserRole(null);
       }
       
+      setAuthInitialized(true);
       setLoading(false);
     });
 
     return unsubscribe;
-  }, []);
+  }, [currentUser]);
 
   const value = {
     currentUser,
     userRole,
-    setUserRole,
+    setUserRole: setUserRoleWithStorage,
     signup,
     login,
-    logout
+    logout,
+    authInitialized
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {!loading && authInitialized && children}
     </AuthContext.Provider>
   );
 }

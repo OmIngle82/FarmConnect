@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../common/Button';
 
 const RoleSelection = () => {
-  const { setUserRole } = useAuth(); // Removed currentUser
+  const { setUserRole, currentUser } = useAuth();
   const navigate = useNavigate();
   const [isNavigating, setIsNavigating] = useState(false);
   
   const handleRoleSelect = (role) => {
+    // Set the role in localStorage temporarily
+    localStorage.setItem('tempUserRole', role);
     setUserRole(role);
     setIsNavigating(true);
     
