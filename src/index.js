@@ -9,7 +9,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 const pathname = sessionStorage.redirect;
 delete sessionStorage.redirect;
 if (pathname && pathname !== "/") {
-  window.history.replaceState(null, null, pathname);
+  // Make sure the pathname includes the base path
+  const basePath = '/farmconnect';
+  const fullPath = pathname.startsWith(basePath) ? pathname : `${basePath}${pathname}`;
+  window.history.replaceState(null, null, fullPath);
 }
 
 root.render(
