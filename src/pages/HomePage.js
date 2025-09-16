@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import RoleSelection from '../components/layout/RoleSelection';
-import AuthCard from '../components/auth/AuthCard';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-
 const HomePage = () => {
   const { currentUser, userRole, loading, authInitialized } = useAuth();
   const navigate = useNavigate();
