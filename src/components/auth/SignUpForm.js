@@ -1,0 +1,170 @@
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import Button from '../common/Button';
+import LoadingSpinner from '../common/LoadingSpinner';
+
+const SignUpForm = ({ toggleAuthMode }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  
+  const { signup, currentUser, userRole } = useAuth();
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (currentUser && userRole) {
+      const timer = setTimeout(() => {
+        if (userRole === 'farmer') {
+          navigate('/farmer-dashboard');
+        } else {
+          navigate('/buyer-dashboard');
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [currentUser, userRole, navigate]);
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+    
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+    
+    setLoading(true);
+    
+    try {
+      await signup(email, password);
+      // The effect will handle the redirect
+    } catch (err) {
+      handleAuthError(err);
+      setLoading(false);
+    }
+  };
+  
+  const handleAuthError = (error) => {
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        setError('An account with this email already exists.');
+        break;
+      case 'auth/invalid-email':
+        setError('Invalid email address format.');
+        break;
+      case 'auth/weak-password':
+        setError('Password is too weak. Please use a stronger password.');
+        break;
+      case 'auth/operation-not-allowed':
+        setError('Account creation is currently disabled.');
+        break;
+      default:
+        setError('Failed to create account. Please try again.');
+    }
+  };
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+        <label htmlFor="name" className="block text-gray-700 text-sm font-medium mb-2">
+          Full Name
+        </label>
+        <input
+          id="name"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          placeholder="John Doe"
+          required
+        />
+      </div>
+      
+      <div className="mb-4">
+        <label htmlFor="email" className="block text-gray-700 text-sm font-medium mb-2">
+          Email Address
+        </label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          placeholder="you@example.com"
+          required
+        />
+      </div>
+      
+      <div className="mb-4">
+        <label htmlFor="password" className="block text-gray-700 text-sm font-medium mb-2">
+          Password
+        </label>
+        <input
+          id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          placeholder="••••••••"
+          required
+        />
+        <p className="mt-1 text-xs text-gray-500">Password must be at least 6 characters long.</p>
+      </div>
+      
+      <div className="mb-6">
+        <label htmlFor="confirm-password" className="block text-gray-700 text-sm font-medium mb-2">
+          Confirm Password
+        </label>
+        <input
+          id="confirm-password"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          placeholder="••••••••"
+          required
+        />
+      </div>
+      
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
+          {error}
+        </div>
+      )}
+      
+      <Button
+        type="submit"
+        variant="primary"
+        size="lg"
+        className="w-full mb-4"
+        disabled={loading}
+      >
+        {loading ? <LoadingSpinner size="sm" /> : 'Create Account'}
+      </Button>
+      
+      <div className="text-center mt-4">
+        <p className="text-sm text-gray-600">
+          Already have an account?{' '}
+          <button
+            type="button"
+            onClick={toggleAuthMode}
+            className="font-medium text-green-600 hover:text-green-500"
+          >
+            Sign in
+          </button>
+        </p>
+      </div>
+    </form>
+  );
+};
+
+export default SignUpForm;
