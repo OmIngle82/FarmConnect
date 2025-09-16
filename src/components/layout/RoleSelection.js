@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../common/Button';
 
 const RoleSelection = () => {
-  const { setUserRole, currentUser } = useAuth();
+  const { setUserRole } = useAuth(); // Removed currentUser
   const navigate = useNavigate();
   const [isNavigating, setIsNavigating] = useState(false);
   

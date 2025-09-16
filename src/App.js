@@ -1,7 +1,6 @@
- import React from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import RoleSelection from './components/layout/RoleSelection';
 import AuthCard from './components/auth/AuthCard';
 import FarmerDashboard from './components/farmer/FarmerDashboard';
 import BuyerDashboard from './components/marketplace/BuyerDashboard';

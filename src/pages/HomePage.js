@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react'; // Removed useState
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import RoleSelection from '../components/layout/RoleSelection';
-import AuthCard from '../components/auth/AuthCard';
+import RoleSelection from '../components/layout/RoleSelection'; // Removed AuthCard
 import LoadingSpinner from '../components/common/LoadingSpinner';
 
 const HomePage = () => {

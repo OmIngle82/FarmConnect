@@ -107,9 +107,9 @@ const SignInForm = ({ toggleAuthMode }) => {
         </div>
         
         <div className="text-sm">
-          <a href="#" className="font-medium text-green-600 hover:text-green-500">
+          <button type="button" className="font-medium text-green-600 hover:text-green-500 bg-transparent border-none p-0 cursor-pointer">
             Forgot your password?
-          </a>
+          </button>
         </div>
       </div>
       
