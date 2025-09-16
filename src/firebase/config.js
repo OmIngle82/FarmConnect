@@ -4,12 +4,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID
+  apiKey: "AIzaSyBzUDEfwYDU4FAQlWpZXTPsNTbDiDbESXA",
+  authDomain: "farmconnect-app-3e079.firebaseapp.com",
+  projectId: "farmconnect-app-3e079",
+  storageBucket: "farmconnect-app-3e079.firebasestorage.app",
+  messagingSenderId: "147069167956",
+  appId: "1:147069167956:web:5502235b49042f20af40c1"
 };
 
 // Initialize Firebase
