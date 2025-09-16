@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/FarmConnect /static/css/main.6cde433f.css",
+    "main.js": "/FarmConnect /static/js/main.6e701aa3.js",
+    "index.html": "/FarmConnect /index.html",
+    "main.6cde433f.css.map": "/FarmConnect /static/css/main.6cde433f.css.map",
+    "main.6e701aa3.js.map": "/FarmConnect /static/js/main.6e701aa3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6cde433f.css",
+    "static/js/main.6e701aa3.js"
+  ]
+}
