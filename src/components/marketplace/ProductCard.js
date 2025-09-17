@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import Button from '../common/Button';
 
 const ProductCard = ({ product, onAddToCart }) => {
@@ -23,7 +23,7 @@ const ProductCard = ({ product, onAddToCart }) => {
             </p>
           </div>
           <div className="text-right">
-            <p className="text-lg font-bold text-green-600">${price}</p>
+            <p className="text-lg font-bold text-green-600"></p>
             <p className="text-sm text-gray-500">per {unit}</p>
           </div>
         </div>
