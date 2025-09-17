@@ -1,21 +1,21 @@
- import React from 'react';
+import React from 'react';
 import Button from '../common/Button';
 
-const ProductCard = ({ product }) => {
-  const { name, farmer, price, unit, image } = product;
+const ProductCard = ({ product, onAddToCart }) => {
+  const { name, farmer, price, unit, image, rating, reviewCount } = product;
   
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
       <div className="h-48 overflow-hidden">
         <img 
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
-          src={image} 
+          src={image || 'https://picsum.photos/300/200?random=' + product.id} 
           alt={name} 
         />
       </div>
       
       <div className="p-5">
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-start mb-2">
           <div>
             <h3 className="text-lg font-bold text-gray-800">{name}</h3>
             <p className="text-sm text-gray-600 mt-1">
@@ -23,7 +23,7 @@ const ProductCard = ({ product }) => {
             </p>
           </div>
           <div className="text-right">
-            <p className="text-lg font-bold text-green-600">{price}</p>
+            <p className="text-lg font-bold text-green-600">${price}</p>
             <p className="text-sm text-gray-500">per {unit}</p>
           </div>
         </div>
@@ -35,10 +35,14 @@ const ProductCard = ({ product }) => {
             <i className="fas fa-star"></i>
             <i className="fas fa-star"></i>
             <i className="fas fa-star-half-alt"></i>
-            <span className="ml-1 text-sm text-gray-600">(24)</span>
+            <span className="ml-1 text-sm text-gray-600">({reviewCount || 0})</span>
           </div>
           
-          <Button variant="primary" size="sm">
+          <Button 
+            variant="primary" 
+            size="sm"
+            onClick={() => onAddToCart(product)}
+          >
             <i className="fas fa-shopping-cart mr-1"></i> Add
           </Button>
         </div>
