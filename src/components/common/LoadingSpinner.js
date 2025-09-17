@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 const LoadingSpinner = ({ size = 'md', className = '' }) => {
   const sizeClasses = {
@@ -8,8 +8,8 @@ const LoadingSpinner = ({ size = 'md', className = '' }) => {
   };
   
   return (
-    <div className={lex justify-center items-center }>
-      <div className={nimate-spin rounded-full border-t-2 border-b-2 border-green-600 }></div>
+    <div className={`flex justify-center items-center ${className}`}>
+      <div className={`animate-spin rounded-full border-t-2 border-b-2 border-green-600 ${sizeClasses[size]}`}></div>
     </div>
   );
 };

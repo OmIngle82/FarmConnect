@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 const Button = ({ 
@@ -28,7 +28,7 @@ const Button = ({
   
   const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';
   
-  const buttonClasses = ${baseClasses}    ;
+  const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabledClasses} ${className}`;
   
   return (
     <button 
