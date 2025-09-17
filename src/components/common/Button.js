@@ -28,12 +28,12 @@ const Button = ({
   
   const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';
   
-  const classes = ${baseClasses}    ;
+  const buttonClasses = ${baseClasses}    ;
   
   return (
     <button 
       type={type} 
-      className={classes} 
+      className={buttonClasses}
       disabled={disabled} 
       onClick={onClick}
       {...props}
